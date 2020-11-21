@@ -46,8 +46,8 @@ HEInputGrid::HEInputGrid(wxWindow *parent, wxWindowID id)
     prop_t_outlet_2 = this->Append(new wxFloatProperty(_("Outlet temperature T2out, deg. C")));
     section_settings = this->Append(new wxPropertyCategory(_("Settings")));
     // Flow direction
-    flow_directions.Add("so-current");
-    flow_directions.Add("counter-current");
+    flow_directions.Add("counter-current");     // #0
+    flow_directions.Add("so-current");          // #1
     prop_flow_type = dynamic_cast<wxEnumProperty*>(this->Append(new wxEnumProperty(_("Direction"), wxPG_LABEL, flow_directions)));
     // Unknown values
     // Insert unknown values enumeration
@@ -169,6 +169,17 @@ void HEInputGrid::OnPropertyChanged(wxCommandEvent &event)
         case 5:
             input_data.flow_2.SetUnknownValue(UNKN_T_OUT);
             input_data.flow_1.SetUnknownValue(UNKN_NONE);
+            break;
+    }
+    // Flows directions
+    int direction = prop_flow_type->GetChoiceSelection();
+    switch(direction)
+    {
+        case 0:
+            input_data.direction = FLOW_COUNTER_CURRENT;
+            break;
+        case 1:
+            input_data.direction = FLOW_SO_CURRENT;
             break;
     }
     // Notify parent frames about updated input data
