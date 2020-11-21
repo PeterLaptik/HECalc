@@ -1,0 +1,19 @@
+#include "panel_input.h"
+
+InputPanel::InputPanel(wxWindow* parent, wxWindowID id,
+                       const wxPoint& pos,
+                       const wxSize& size,
+                       long style,
+                       const wxString& name)
+            : wxPanel(parent, id, pos, size, style, name)
+{
+	wxBoxSizer* box_sizer;
+	box_sizer = new wxBoxSizer(wxHORIZONTAL);
+	input_grid = new HEInputGrid(this, wxID_ANY);
+	box_sizer->Add(input_grid, 1, wxEXPAND, 5);
+	this->SetSizer(box_sizer);
+	this->Layout();
+}
+
+InputPanel::~InputPanel()
+{ }
