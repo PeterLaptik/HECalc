@@ -61,12 +61,13 @@ HEInputGrid::HEInputGrid(wxWindow *parent, wxWindowID id)
     prop_unknown_value = dynamic_cast<wxEnumProperty*>(this->Append(new wxEnumProperty(_("Unknown value"), wxPG_LABEL, unknown_values)));
 
     // Size
+    this->SetSize(450, -1);
     this->SetColumnProportion(0, 4);
     this->SetColumnProportion(1, 1);
     // Collapse substance properties
     this->Collapse(section_substance_props_1);
     this->Collapse(section_substance_props_2);
-    // Event handling and default values
+    // Event handling and setting default values
     Connect(wxID_ANY, wxEVT_PG_CHANGED,(wxObjectEventFunction)&HEInputGrid::OnPropertyChanged);
     InitWithDefaultSubstances();
 }

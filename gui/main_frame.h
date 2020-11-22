@@ -10,9 +10,11 @@
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
+#include <wx/menu.h>
 
 #include "panels/panel_input.h"
 #include "panels/panel_drafter.h"
+#include "panels/panel_balance.h"
 #include "events/events.h"
 
 class MainFrame : public wxFrame
@@ -31,10 +33,22 @@ class MainFrame : public wxFrame
 	protected:
 	    void OnInputDataChanged(wxCommandEvent &event);
 	    void OnResizeFrame(wxSizeEvent &event);
+	    // Menu commands
+	    void ShowAllNotebookPanels(wxCommandEvent &event);
 
 	    InputPanel *input_panel;
+	    BalancePanel *balance_panel;
 	    NotePanelDrafter *drafter_panel;
 	    wxAuiNotebook *auinotebook;
+
+	    // Menu
+	    wxMenuBar *menu;
+	    wxMenu *menu_file;
+	    wxMenu *menu_help;
+        wxMenu *menu_view;
+
+        // Menu ids
+        static int ID_SHOW_ALL_NOTEBOOKS;
 
 	private:
         wxDECLARE_EVENT_TABLE();

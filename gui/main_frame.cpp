@@ -1,12 +1,19 @@
 #include "main_frame.h"
 
-// Custom event to notify high-level window on input data updating
-// See event.h
-//wxDEFINE_EVENT(wxINPUT_UPDATED, EventInputUpdated);
+// Default size of the panel in proportion of screen
+static const float FRAME_SCREEN_PROPORTION = 0.8;
+
+// Default proportion for the input panel
+static const float FRAME_INPUT_PROPORTION = 0.3;
+
+// Assign menu ids
+int MainFrame::ID_SHOW_ALL_NOTEBOOKS = wxNewId();
+
 
 wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
     EVT_SIZE(MainFrame::OnResizeFrame)
     EVT_COMMAND(wxID_ANY, wxINPUT_UPDATED, MainFrame::OnInputDataChanged)
+    EVT_MENU(ID_SHOW_ALL_NOTEBOOKS, MainFrame::ShowAllNotebookPanels)
 wxEND_EVENT_TABLE()
 
 
@@ -23,17 +30,36 @@ MainFrame::MainFrame(wxWindow* parent,
 	m_mgr.SetFlags(wxAUI_MGR_DEFAULT);
 
 	input_panel = new InputPanel(this);
-	m_mgr.AddPane(input_panel, wxAuiPaneInfo().Left().Caption(_("Input")).CloseButton(false).Dock().Resizable().FloatingSize(wxDefaultSize));
+	m_mgr.AddPane(input_panel, wxAuiPaneInfo().Left().Caption(_("Input")).CloseButton(false)
+               .Dock().Resizable().FloatingSize(wxDefaultSize)
+               .MinSize(wxSystemSettings::GetMetric(wxSYS_SCREEN_X)*FRAME_SCREEN_PROPORTION*FRAME_INPUT_PROPORTION, -1));
 
-	auinotebook = new wxAuiNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_NB_DEFAULT_STYLE);
+	auinotebook = new wxAuiNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
 	m_mgr.AddPane(auinotebook, wxAuiPaneInfo().Center().CloseButton(false).Dock().Resizable().FloatingSize(wxDefaultSize));
 
 	// Notebook panes
 	drafter_panel = new NotePanelDrafter(this);
 	auinotebook->AddPage(drafter_panel, wxT("View"), false, wxNullBitmap);
 
+	balance_panel = new BalancePanel(this);
+	auinotebook->AddPage(balance_panel, wxT("Balance"), false, wxNullBitmap);
+
+    // Create menus
+    menu = new wxMenuBar();
+    menu_file = new wxMenu();
+    menu_view = new wxMenu();
+    menu_help = new wxMenu();
+    // Insert items
+    menu->Append(menu_view, _("View"));
+    menu_view->Append(ID_SHOW_ALL_NOTEBOOKS, _("Show all"));
+	SetMenuBar(menu);
+
 	m_mgr.Update();
+	this->SetSize(wxSize(wxSystemSettings::GetMetric(wxSYS_SCREEN_X)*FRAME_SCREEN_PROPORTION,
+                      wxSystemSettings::GetMetric(wxSYS_SCREEN_Y)*FRAME_SCREEN_PROPORTION));
 	this->Centre(wxBOTH);
+	// Restore aui-child minimum size value
+	m_mgr.GetPane(input_panel).MinSize(-1, -1);
 }
 
 MainFrame::~MainFrame()
@@ -50,4 +76,9 @@ void MainFrame::OnInputDataChanged(wxCommandEvent &event)
 void MainFrame::OnResizeFrame(wxSizeEvent &event)
 {
     drafter_panel->Refresh();
+}
+
+void MainFrame::ShowAllNotebookPanels(wxCommandEvent &event)
+{
+    drafter_panel->Show();
 }
