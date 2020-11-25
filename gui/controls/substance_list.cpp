@@ -12,6 +12,8 @@ static const int NUM_WIDTH = 60;
 static const int VISC_WIDTH = 80;
 static const int NAME_WIDTH = 100;
 static const int NOTES_WIDTH = 120;
+static const int TYPE_WIDTH = 85;
+static const int END_MARGIN = 25;
 // Columns types
 static const long COL_NAME = 0;
 static const long COL_HEAT_CAPACITY = 1;
@@ -20,7 +22,8 @@ static const long COL_CONDENSATION_HEAT = 3;
 static const long COL_EVAPORATION_HEAT = 4;
 static const long COL_THERMAL_CONDUCTIVITY = 5;
 static const long COL_VISCOSITY = 6;
-static const long COL_NOTES = 7;
+static const long COL_TYPE = 7;
+static const long COL_NOTES = 8;
 
 
 SubstanceList::SubstanceList(wxWindow *parent,
@@ -30,7 +33,12 @@ SubstanceList::SubstanceList(wxWindow *parent,
                 long style,
                 const wxValidator &validator,
                 const wxString &name)
-                : wxListCtrl(parent, id, pos, wxSize(6*NUM_WIDTH + NAME_WIDTH + NOTES_WIDTH, 300), style, validator, name)
+                : wxListCtrl(parent, id, pos,
+                             wxSize(5*NUM_WIDTH + VISC_WIDTH + NAME_WIDTH +
+                                    NOTES_WIDTH + TYPE_WIDTH + END_MARGIN, 300),
+                             style,
+                             validator,
+                             name)
 {
     this->AppendColumns();
     ReadSubstances();
@@ -88,9 +96,15 @@ void SubstanceList::AppendColumns()
 
 	wxListItem col_7;
 	col_7.SetId(col_counter++);
-	col_7.SetText(_(wxT("Notes")));
-	col_7.SetWidth(NOTES_WIDTH);
+	col_7.SetText(_(wxT("Type")));
+	col_7.SetWidth(TYPE_WIDTH);
 	this->InsertColumn(col_counter++, col_7);
+
+	wxListItem col_8;
+	col_8.SetId(col_counter++);
+	col_8.SetText(_(wxT("Notes")));
+	col_8.SetWidth(NOTES_WIDTH);
+	this->InsertColumn(col_counter++, col_8);
 }
 
 wxString SubstanceList::OnGetItemText(long item, long column) const
@@ -114,6 +128,8 @@ wxString SubstanceList::OnGetItemText(long item, long column) const
             return result<<s.thermal_conductivity;
         case COL_VISCOSITY:
             return result<<s.viscosity;
+        case COL_TYPE:
+            return Substance::GetTypeNameFor(s.type);
         case COL_NOTES:
             return s.notes;
     }
@@ -151,6 +167,7 @@ void SubstanceList::ReadSubstances()
         item.heat_condensation = reader.GetDouble();
         item.thermal_conductivity = reader.GetDouble();
         item.viscosity = reader.GetDouble();
+        item.type = static_cast<FluidType>(reader.GetInteger());
         item.notes = reader.GetString();
         m_substances.push_back(item);
     }
@@ -177,6 +194,7 @@ void SubstanceList::CreateDefaultBaseFile(const wxString &path)
         <<"\tCondensation heat, J/kg"
         <<"\tThermal conductivity, W/(m*K)"
         <<"\tviscosity, Pa*sec"
+        <<"\ttype"
         <<"\tNotes\n";
     file.Write(line);
 
@@ -188,6 +206,7 @@ void SubstanceList::CreateDefaultBaseFile(const wxString &path)
         <<dummy_substance.heat_condensation<<'\t'
         <<dummy_substance.thermal_conductivity<<'\t'
         <<dummy_substance.viscosity<<'\t'
+        <<static_cast<int>(dummy_substance.type)<<'\t'
         <<dummy_substance.notes
         <<'\n';
     file.Write(line);
