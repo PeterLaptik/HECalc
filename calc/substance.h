@@ -73,7 +73,7 @@ struct Substance
                 return _("condensing water vapour");
             }
 
-        return "";
+        return "error";
     }
 };
 

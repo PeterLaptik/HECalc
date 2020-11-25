@@ -1,4 +1,5 @@
 #include "dlgsubstance.h"
+#include "dlg_create_substance.h"
 #include <wx/intl.h>
 #include <wx/string.h>
 
@@ -10,9 +11,10 @@ DlgSubstance::DlgSubstance(wxWindow* parent, wxWindowID id, const wxPoint& pos, 
 {
     id_button_ok = wxNewId();
     id_button_cancel = wxNewId();
+    id_button_create_substance = wxNewId();
     has_selected = false;
 
-	Create(parent, id, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("id"));
+	Create(parent, id, _("Choose substance"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("id"));
 	SetClientSize(wxDefaultSize);
 	Move(wxDefaultPosition);
 
@@ -21,8 +23,10 @@ DlgSubstance::DlgSubstance(wxWindow* parent, wxWindowID id, const wxPoint& pos, 
 	box_sizer_h = new wxBoxSizer(wxHORIZONTAL);
 
 	// Buttons
-	button_ok = new wxButton(this, id_button_ok, wxT("OK"), wxDefaultPosition, wxDefaultSize, 0);
-	button_cancel = new wxButton(this, id_button_cancel, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0);
+	button_ok = new wxButton(this, id_button_ok, _("OK"), wxDefaultPosition, wxDefaultSize, 0);
+	button_cancel = new wxButton(this, id_button_cancel, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0);
+    create_substance = new wxButton(this, id_button_create_substance, _("Create"), wxDefaultPosition, wxDefaultSize, 0);
+    box_sizer_h->Add(create_substance, 0, wxALIGN_BOTTOM|wxALIGN_LEFT|wxALL, 5);
 	box_sizer_h->Add(button_ok, 0, wxALIGN_BOTTOM|wxALIGN_RIGHT|wxALL, 5);
 	box_sizer_h->Add(button_cancel, 0, wxALIGN_BOTTOM|wxALIGN_RIGHT|wxALL, 5);
 
@@ -54,6 +58,14 @@ const Substance& DlgSubstance::GetSelectedSubstance() const
 void DlgSubstance::OnButtonClick(wxCommandEvent &event)
 {
     int id = event.GetId();
+
+    if(id==id_button_create_substance)
+    {
+        DlgCreateSubstance *dlg = new DlgCreateSubstance(this);
+        dlg->ShowModal();
+        delete dlg;
+        return;
+    }
 
     // Find selected substance
     long index = -1;

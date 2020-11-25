@@ -33,9 +33,11 @@ class DlgSubstance: public wxDialog
 	    wxBoxSizer *box_sizer_h;
 	    wxButton *button_ok;
 	    wxButton *button_cancel;
+	    wxButton *create_substance;
 
 	    int id_button_ok;
 	    int id_button_cancel;
+	    int id_button_create_substance;
 	    int id_box_sizer;
 	    int id_box_sizer_h;
 
