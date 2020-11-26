@@ -63,7 +63,7 @@ class wxPropertySubstance: public wxPGProperty
                 substance = dlg->GetSelectedSubstance();
 
             delete dlg;
-
+            this->SetValue(substance.name);
             // Event to handle outside (in parent grid)
             wxPostEvent(parent_grid, wxCommandEvent(wxEVT_PG_CHANGED, m_id));
             return true;
