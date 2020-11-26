@@ -3,7 +3,12 @@
 #include "../../calc/input_data.h"
 #include "../../calc/heat_balance.h"
 #include "../events/events.h"
+#include <wx/msgdlg.h>
 
+// Selection positions for unknown variables
+// Hard-coded values
+static const int FLOW_1_UNKNOWN_SELECTION = 0;
+static const int FLOW_2_UNKNOWN_SELECTION = 3;
 
 // Custom event to notify high-level window on input data updating
 // See event.h
@@ -112,14 +117,6 @@ void HEInputGrid::OnPropertyChanged(wxCommandEvent &event)
     }
     // Disable unknown property
     int unknown = prop_unknown_value->GetChoiceSelection();
-    std::map<int, wxPGProperty*>::iterator values = unknown_props_map.find(unknown);
-    if(values!=unknown_props_map.end())
-    {
-        for(auto i: unknown_props_map)
-            i.second->Enable(true);
-         // Disable only selected value
-        (*values).second->Enable(false);
-    }
     // Assign property values
     InputData &input_data = InputData::GetInstance();
     // Flow #1
@@ -130,6 +127,7 @@ void HEInputGrid::OnPropertyChanged(wxCommandEvent &event)
     input_data.flow_1.GetSubstance().heat_condensation = prop_substance_heatcondensation_1->GetValue();
     input_data.flow_1.GetSubstance().thermal_conductivity = prop_substance_thermalconductivity_1->GetValue();
     input_data.flow_1.GetSubstance().viscosity = prop_substance_viscosity_1->GetValue();
+    input_data.flow_1.GetSubstance().type = prop_substance_name_1->GetSubstance().type;
     input_data.flow_1.SetFlowRate(prop_flow_1->GetValue());
     input_data.flow_1.SetInletTemperature(prop_t_inlet_1->GetValue());
     input_data.flow_1.SetOutletTemperature(prop_t_outlet_1->GetValue());
@@ -141,6 +139,7 @@ void HEInputGrid::OnPropertyChanged(wxCommandEvent &event)
     input_data.flow_2.GetSubstance().heat_condensation = prop_substance_heatcondensation_2->GetValue();
     input_data.flow_2.GetSubstance().thermal_conductivity = prop_substance_thermalconductivity_2->GetValue();
     input_data.flow_2.GetSubstance().viscosity = prop_substance_viscosity_2->GetValue();
+    input_data.flow_2.GetSubstance().type = prop_substance_name_2->GetSubstance().type;
     input_data.flow_2.SetFlowRate(prop_flow_2->GetValue());
     input_data.flow_2.SetInletTemperature(prop_t_inlet_2->GetValue());
     input_data.flow_2.SetOutletTemperature(prop_t_outlet_2->GetValue());
@@ -183,6 +182,36 @@ void HEInputGrid::OnPropertyChanged(wxCommandEvent &event)
             input_data.direction = FLOW_SO_CURRENT;
             break;
     }
+    // Check compatibility of the unknown value with a substance type
+    // Make unknown property disabled for input
+    std::map<int, wxPGProperty*>::iterator values = unknown_props_map.find(unknown);
+    if(((input_data.flow_1.GetSubstance().type==F_VAPOUR)
+       ||(input_data.flow_1.GetSubstance().type==F_VAPOUR_WATER)
+       ||(input_data.flow_1.GetSubstance().type==F_BOILING_LIQUID))
+       && ((*values).second==prop_t_inlet_1 || (*values).second==prop_t_outlet_1))
+       {
+           prop_unknown_value->SetChoiceSelection(FLOW_1_UNKNOWN_SELECTION);
+           input_data.flow_1.SetUnknownValue(UNKN_RATE);
+       }
+    if(((input_data.flow_2.GetSubstance().type==F_VAPOUR)
+       ||(input_data.flow_2.GetSubstance().type==F_VAPOUR_WATER)
+       ||(input_data.flow_2.GetSubstance().type==F_BOILING_LIQUID))
+       && ((*values).second==prop_t_inlet_2 || (*values).second==prop_t_outlet_2))
+       {
+           prop_unknown_value->SetChoiceSelection(FLOW_2_UNKNOWN_SELECTION);
+           input_data.flow_2.SetUnknownValue(UNKN_RATE);
+       }
+    // Disable unknown rechecked value
+    unknown = prop_unknown_value->GetChoiceSelection();
+    values = unknown_props_map.find(unknown);
+    if(values!=unknown_props_map.end())
+    {
+        for(auto i: unknown_props_map)
+            i.second->Enable(true);
+          // Disable only selected value
+        (*values).second->Enable(false);
+    }
+    this->Refresh();
     // Notify parent frames about updated input data
     wxPostEvent(this, EventInputUpdated(wxINPUT_UPDATED, this->GetId()));
 }
