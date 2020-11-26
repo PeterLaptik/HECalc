@@ -10,7 +10,7 @@ static const int ROW_HEAT_CONDENSATION = 4;
 static const int ROW_THERMAL_CONDUCTIVITY = 5;
 static const int ROW_VISCOSITY = 6;
 static const int ROW_NOTES = 7;
-
+// Controls ids
 static const int id_button_add = wxNewId();
 static const int id_button_cancel = wxNewId();
 
@@ -141,6 +141,8 @@ void DlgCreateSubstance::OnAddSubstance(wxCommandEvent &event)
     // Check substance data
     if(m_grid->GetCellValue(ROW_NAME, 0).Trim()=="")
         return ShowMessage(_("The substance name is not defined!"));
+
+    result.name = m_grid->GetCellValue(ROW_NAME, 0);
 
     // Are the values numeric
     if(!m_grid->GetCellValue(ROW_DENSITY, 0).ToDouble(&result.density))

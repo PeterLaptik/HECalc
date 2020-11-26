@@ -224,3 +224,8 @@ Substance SubstanceList::GetSubstance(int index) const
 
     return result;
 }
+
+void SubstanceList::RefreshList()
+{
+    ReadSubstances();
+}

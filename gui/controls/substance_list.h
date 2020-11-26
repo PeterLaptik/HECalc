@@ -19,8 +19,10 @@ class SubstanceList: public wxListCtrl
 
         virtual ~SubstanceList();
 
-        wxString OnGetItemText(long item, long column) const;
         Substance GetSubstance(int index) const;
+
+        // Clear list and reread substances from base
+        void RefreshList(void);
 
 
     protected:
@@ -30,6 +32,7 @@ class SubstanceList: public wxListCtrl
         void AppendColumns(void);
         void ReadSubstances(void);
         void CreateDefaultBaseFile(const wxString &path);
+        wxString OnGetItemText(long item, long column) const;
 
         std::vector<Substance> m_substances;
 };

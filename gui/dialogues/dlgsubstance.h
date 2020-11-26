@@ -24,6 +24,7 @@ class DlgSubstance: public wxDialog
 
 	protected:
 	    void OnButtonClick(wxCommandEvent &event);
+	    void AppendSubstance(const Substance &s);
 
 	    SubstanceList *substance_list;
 	    Substance selected_substance;

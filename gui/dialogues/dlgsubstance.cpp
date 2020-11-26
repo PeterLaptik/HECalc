@@ -2,10 +2,19 @@
 #include "dlg_create_substance.h"
 #include <wx/intl.h>
 #include <wx/string.h>
+#include <wx/file.h>
+#include <wx/dir.h>
+#include <wx/filename.h>
+
+// Path to base file
+static const wxString PATH_FOLDER = "base";
+static const wxString PATH_DB = "substances.txt";
+
 
 wxBEGIN_EVENT_TABLE(DlgSubstance,wxDialog)
     EVT_BUTTON(wxID_ANY, DlgSubstance::OnButtonClick)
 wxEND_EVENT_TABLE()
+
 
 DlgSubstance::DlgSubstance(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size)
 {
@@ -63,6 +72,12 @@ void DlgSubstance::OnButtonClick(wxCommandEvent &event)
     {
         DlgCreateSubstance *dlg = new DlgCreateSubstance(this);
         dlg->ShowModal();
+        // Write substance into file if created
+        if(dlg->IsSubstanceCreated())
+        {
+            AppendSubstance(dlg->GetCreatedSubstance());
+            substance_list->RefreshList();
+        }
         delete dlg;
         return;
     }
@@ -82,4 +97,28 @@ void DlgSubstance::OnButtonClick(wxCommandEvent &event)
         selected_substance = substance_list->GetSubstance(index);
     }
     this->Destroy();
+}
+
+// Append substance into base file
+void DlgSubstance::AppendSubstance(const Substance &s)
+{
+    wxString file_line;
+    wxString path = wxFileName::GetCwd() + wxFileName::GetPathSeparator() + PATH_FOLDER + wxFileName::GetPathSeparator() + PATH_DB;
+    wxFile file;
+    file.Open(path, wxFile::write_append);
+
+    file_line.Clear();
+    file_line<<s.name<<'\t'
+        <<s.heat_capacity<<'\t'
+        <<s.density<<'\t'
+        <<s.heat_vaporization<<'\t'
+        <<s.heat_condensation<<'\t'
+        <<s.thermal_conductivity<<'\t'
+        <<s.viscosity<<'\t'
+        <<static_cast<int>(s.type)<<'\t'
+        <<s.notes
+        <<'\n';
+    file.Write(file_line);
+    file.Flush();
+    file.Close();
 }
