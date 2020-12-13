@@ -1,6 +1,8 @@
 #ifndef INPUT_GRID_H_INCLUDED
 #define INPUT_GRID_H_INCLUDED
 
+#define TEST
+
 #include "input_grid_props.h"
 #include <wx/propgrid/propgrid.h>
 #include <map>
@@ -11,6 +13,10 @@ class HEInputGrid: public wxPropertyGrid
     public:
         HEInputGrid(wxWindow *parent, wxWindowID id);
         virtual ~HEInputGrid();
+
+        #ifdef TEST
+            void TestCase_1(void);
+        #endif // TEST
 
     protected:
         void OnPropertyChanged(wxCommandEvent &event);

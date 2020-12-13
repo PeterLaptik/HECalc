@@ -92,8 +92,7 @@ DlgCreateSubstance::DlgCreateSubstance(wxWindow* parent, wxWindowID id, const wx
 }
 
 DlgCreateSubstance::~DlgCreateSubstance()
-{
-}
+{ }
 
 
 void DlgCreateSubstance::RefreshTable()

@@ -1,5 +1,7 @@
 #include "main_frame.h"
 
+#define TEST
+
 // Default size of the panel in proportion of screen
 static const float FRAME_SCREEN_PROPORTION = 0.8;
 
@@ -7,13 +9,13 @@ static const float FRAME_SCREEN_PROPORTION = 0.8;
 static const float FRAME_INPUT_PROPORTION = 0.3;
 
 // Assign menu ids
-int MainFrame::ID_SHOW_ALL_NOTEBOOKS = wxNewId();
+int MainFrame::ID_TEST_CASE_1 = wxNewId();
 
 
 wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
     EVT_SIZE(MainFrame::OnResizeFrame)
     EVT_COMMAND(wxID_ANY, wxINPUT_UPDATED, MainFrame::OnInputDataChanged)
-    EVT_MENU(ID_SHOW_ALL_NOTEBOOKS, MainFrame::ShowAllNotebookPanels)
+    EVT_MENU(wxID_ANY, MainFrame::InitTestData)
 wxEND_EVENT_TABLE()
 
 
@@ -38,11 +40,11 @@ MainFrame::MainFrame(wxWindow* parent,
 	m_mgr.AddPane(auinotebook, wxAuiPaneInfo().Center().CloseButton(false).Dock().Resizable().FloatingSize(wxDefaultSize));
 
 	// Notebook panes
-	drafter_panel = new NotePanelDrafter(this);
-	auinotebook->AddPage(drafter_panel, wxT("View"), false, wxNullBitmap);
-
 	balance_panel = new BalancePanel(this);
 	auinotebook->AddPage(balance_panel, wxT("Balance"), false, wxNullBitmap);
+
+	drafter_panel = new NotePanelDrafter(this);
+	auinotebook->AddPage(drafter_panel, wxT("View"), false, wxNullBitmap);
 
     // Create menus
     menu = new wxMenuBar();
@@ -50,8 +52,8 @@ MainFrame::MainFrame(wxWindow* parent,
     menu_view = new wxMenu();
     menu_help = new wxMenu();
     // Insert items
-    menu->Append(menu_view, _("View"));
-    menu_view->Append(ID_SHOW_ALL_NOTEBOOKS, _("Show all"));
+    menu->Append(menu_view, _("Test"));
+    menu_view->Append(ID_TEST_CASE_1, _("Test 1"));
 	SetMenuBar(menu);
 
 	m_mgr.Update();
@@ -71,14 +73,28 @@ MainFrame::~MainFrame()
 void MainFrame::OnInputDataChanged(wxCommandEvent &event)
 {
     drafter_panel->Refresh();
+    balance_panel->Refresh();
+    balance_panel->UpdateResultValues();
 }
 
 void MainFrame::OnResizeFrame(wxSizeEvent &event)
 {
     drafter_panel->Refresh();
+    balance_panel->Refresh();
 }
 
 void MainFrame::ShowAllNotebookPanels(wxCommandEvent &event)
 {
     drafter_panel->Show();
 }
+
+// Assign test data for input panel
+#ifdef TEST
+void MainFrame::InitTestData(wxCommandEvent &event)
+{
+    int id = event.GetId();
+    if(id==ID_TEST_CASE_1)
+        input_panel->SetTestData(1);
+
+}
+#endif // TEST

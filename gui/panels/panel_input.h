@@ -6,8 +6,10 @@
 #include <wx/sizer.h>
 #include <wx/aui/aui.h>
 
+#define TEST
+
 // Main input panel
-// Keeps input grid
+// Contains input grid
 class InputPanel : public wxPanel
 {
     public:
@@ -19,6 +21,10 @@ class InputPanel : public wxPanel
                 const wxString& name = wxEmptyString);
 
 		virtual ~InputPanel();
+
+		#ifdef TEST
+            void SetTestData(int test_num);
+		#endif // TEST
 
     protected:
         HEInputGrid *input_grid;

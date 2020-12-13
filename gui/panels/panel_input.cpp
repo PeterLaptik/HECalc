@@ -17,3 +17,16 @@ InputPanel::InputPanel(wxWindow* parent, wxWindowID id,
 
 InputPanel::~InputPanel()
 { }
+
+
+#ifdef TEST
+    void InputPanel::SetTestData(int test_num)
+    {
+        switch(test_num)
+        {
+            case 1:
+                input_grid->TestCase_1();
+                break;
+        }
+    }
+#endif // TEST

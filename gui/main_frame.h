@@ -34,7 +34,10 @@ class MainFrame : public wxFrame
 	    void OnInputDataChanged(wxCommandEvent &event);
 	    void OnResizeFrame(wxSizeEvent &event);
 	    // Menu commands
+
+	    // Test commands
 	    void ShowAllNotebookPanels(wxCommandEvent &event);
+	    void InitTestData(wxCommandEvent &event);
 
 	    InputPanel *input_panel;
 	    BalancePanel *balance_panel;
@@ -48,7 +51,7 @@ class MainFrame : public wxFrame
         wxMenu *menu_view;
 
         // Menu ids
-        static int ID_SHOW_ALL_NOTEBOOKS;
+        static int ID_TEST_CASE_1;
 
 	private:
         wxDECLARE_EVENT_TABLE();

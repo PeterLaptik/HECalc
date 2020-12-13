@@ -14,7 +14,7 @@ Flow::~Flow()
 
 double Flow::CalculateHeatFlow()
 {
-    if(unknown_value==UNKN_NONE)
+    if(unknown_value!=UNKN_NONE)
         return heat_flow = 0;
 
     FluidType fluid_type = substance.type;
@@ -33,6 +33,7 @@ double Flow::CalculateHeatFlow()
             heat_flow = substance.heat_condensation*flow_rate;
             break;
     }
+    heat_flow = round(heat_flow*10)/10;
     return heat_flow;
 }
 
@@ -59,7 +60,7 @@ void Flow::CalculateUnknown()
         }
         // dT = Q/(G*c)
         // Tin - Tout = Q/(G*c)
-        if(unknown_value==UNKN_T_IN)
+        if(unknown_value==UNKN_T_OUT)
         {
             double delta_t = heat_flow/(flow_rate*substance.heat_capacity);
             if(is_hot)

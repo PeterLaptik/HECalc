@@ -1,6 +1,7 @@
 #ifndef PANEL_BALANCE_H_INCLUDED
 #define PANEL_BALANCE_H_INCLUDED
 
+#include "../../calc/coefficientmatrix.h"
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
 #include <wx/string.h>
@@ -17,9 +18,23 @@
 
 class BalancePanel : public wxPanel
 {
-	private:
+    public:
+		BalancePanel(wxWindow* parent,
+                    wxWindowID id = wxID_ANY,
+                    const wxPoint& pos = wxDefaultPosition,
+                    const wxSize& size = wxSize( 371,269 ),
+                    long style = wxTAB_TRAVERSAL,
+                    const wxString& name = wxEmptyString);
+
+		~BalancePanel();
+
+		void UpdateResultValues(void);
+
 
 	protected:
+	    void OnFLowTypeCHanged(wxCommandEvent &event);
+	    void OnCoeffSelectionChanged(wxCommandEvent &event);
+
 		wxStaticText* m_static_text_hf;
 		wxTextCtrl* m_text_heat_flow;
 		wxStaticText* m_static_text_result;
@@ -28,18 +43,26 @@ class BalancePanel : public wxPanel
 		wxTextCtrl* m_text_subst_type_1;
 		wxStaticText* m_static_text_subst_2;
 		wxTextCtrl* m_text_subst_type_2;
+		wxStaticText* m_static_text_t_diff;
+		wxTextCtrl* m_text_t_diff;
+		wxStaticText* m_static_text_flow;
+		wxChoice* m_choice_flow_type;
 		wxStaticText* m_static_text_coeff;
 		wxChoice* m_choice_coefficient;
-		wxStaticText* m_static_text_ares;
+		wxStaticText* m_static_text_area;
 		wxTextCtrl* m_text_area;
 		wxPanel* m_panel4;
 		wxPanel* m_panel6;
 
-	public:
+		wxArrayString m_flow_type;
+		wxArrayString m_choice_coefficients;  // Mutable values. Depend on fluid types
 
-		BalancePanel(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 371,269 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString);
-		~BalancePanel();
+    private:
+        double last_K;
+        CoefficientMatrix m_coeff_matrix;
 
+
+    wxDECLARE_EVENT_TABLE();
 };
 
 
