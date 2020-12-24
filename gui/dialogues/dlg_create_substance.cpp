@@ -108,8 +108,8 @@ void DlgCreateSubstance::RefreshTable()
             m_grid->SetReadOnly(ROW_HEAT_VAPORIZATION, 0, true);
             m_grid->SetReadOnly(ROW_HEAT_CAPACITY, 0, false);
             break;
-        case F_VAPOUR:
-        case F_VAPOUR_WATER:
+        case F_CONDENSING_VAPOUR:
+        case F_CONDENSING_VAPOUR_WATER:
             m_grid->SetReadOnly(ROW_HEAT_CONDENSATION, 0, false);
             m_grid->SetReadOnly(ROW_HEAT_VAPORIZATION, 0, true);
             m_grid->SetReadOnly(ROW_HEAT_CAPACITY, 0, true);
@@ -151,7 +151,7 @@ void DlgCreateSubstance::OnAddSubstance(wxCommandEvent &event)
        && (!m_grid->GetCellValue(ROW_HEAT_CAPACITY, 0).ToDouble(&result.heat_capacity)))
        return ShowMessage(_("Wrong heat capacity value!"));
 
-    if(((result.type==F_VAPOUR)||(result.type==F_VAPOUR_WATER))
+    if(((result.type==F_CONDENSING_VAPOUR)||(result.type==F_CONDENSING_VAPOUR_WATER))
        && (!m_grid->GetCellValue(ROW_HEAT_CONDENSATION, 0).ToDouble(&result.heat_condensation)))
        return ShowMessage(_("Wrong condensation heat value!"));
 
@@ -189,7 +189,7 @@ bool DlgCreateSubstance::CheckResult(const Substance &result)
        && (result.heat_capacity<=0))
        msg = _("Wrong heat capacity value!");
 
-    if(((result.type==F_VAPOUR)||(result.type==F_VAPOUR_WATER))
+    if(((result.type==F_CONDENSING_VAPOUR)||(result.type==F_CONDENSING_VAPOUR_WATER))
        && (result.heat_condensation<=0))
        msg = _("Wrong condensation heat value!");
 

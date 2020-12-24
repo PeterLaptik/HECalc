@@ -185,16 +185,16 @@ void HEInputGrid::OnPropertyChanged(wxCommandEvent &event)
     // Check compatibility of the unknown value with a substance type
     // Make unknown property disabled for input
     std::map<int, wxPGProperty*>::iterator values = unknown_props_map.find(unknown);
-    if(((input_data.flow_1.GetSubstance().type==F_VAPOUR)
-       ||(input_data.flow_1.GetSubstance().type==F_VAPOUR_WATER)
+    if(((input_data.flow_1.GetSubstance().type==F_CONDENSING_VAPOUR)
+       ||(input_data.flow_1.GetSubstance().type==F_CONDENSING_VAPOUR_WATER)
        ||(input_data.flow_1.GetSubstance().type==F_BOILING_LIQUID))
        && ((*values).second==prop_t_inlet_1 || (*values).second==prop_t_outlet_1))
        {
            prop_unknown_value->SetChoiceSelection(FLOW_1_UNKNOWN_SELECTION);
            input_data.flow_1.SetUnknownValue(UNKN_RATE);
        }
-    if(((input_data.flow_2.GetSubstance().type==F_VAPOUR)
-       ||(input_data.flow_2.GetSubstance().type==F_VAPOUR_WATER)
+    if(((input_data.flow_2.GetSubstance().type==F_CONDENSING_VAPOUR)
+       ||(input_data.flow_2.GetSubstance().type==F_CONDENSING_VAPOUR_WATER)
        ||(input_data.flow_2.GetSubstance().type==F_BOILING_LIQUID))
        && ((*values).second==prop_t_inlet_2 || (*values).second==prop_t_outlet_2))
        {
@@ -210,6 +210,22 @@ void HEInputGrid::OnPropertyChanged(wxCommandEvent &event)
             i.second->Enable(true);
           // Disable only selected value
         (*values).second->Enable(false);
+    }
+    // Inlet and outlet temperatures are to be the same for boiling / condensing substances
+    if((input_data.flow_1.GetSubstance().type==F_BOILING_LIQUID)
+       ||(input_data.flow_1.GetSubstance().type==F_CONDENSING_VAPOUR)
+       ||(input_data.flow_1.GetSubstance().type==F_CONDENSING_VAPOUR_WATER))
+    {
+        input_data.flow_1.SetOutletTemperature(input_data.flow_1.GetInletTemperature());
+        prop_t_outlet_1->SetValue(input_data.flow_1.GetOutletTemperature());
+    }
+
+    if((input_data.flow_2.GetSubstance().type==F_BOILING_LIQUID)
+       ||(input_data.flow_2.GetSubstance().type==F_CONDENSING_VAPOUR)
+       ||(input_data.flow_2.GetSubstance().type==F_CONDENSING_VAPOUR_WATER))
+    {
+        input_data.flow_2.SetOutletTemperature(input_data.flow_2.GetInletTemperature());
+        prop_t_outlet_2->SetValue(input_data.flow_2.GetOutletTemperature());
     }
     this->Refresh();
     // Notify parent frames about updated input data

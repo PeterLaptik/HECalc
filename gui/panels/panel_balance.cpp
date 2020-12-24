@@ -208,6 +208,13 @@ void BalancePanel::UpdateResultValues()
             break;
         }
     }
+    // Assign preliminary heat transfer coefficient if not assigned for first time coefficient changed
+    if(m_choice_coefficient->GetString(m_choice_coefficient->GetSelection()).ToDouble(&real_value))
+        balance.SetPrelimHeatTransferCoefficient(real_value);
+    // Required heat transfer area
+    balance.CalculateRequiredArea();
+    m_text_area->Clear();
+    m_text_area->AppendText(wxString::Format("%.1f", balance.GetRequiredArea()));
 }
 
 void BalancePanel::OnFLowTypeCHanged(wxCommandEvent &event)
@@ -225,6 +232,7 @@ void BalancePanel::OnCoeffSelectionChanged(wxCommandEvent &event)
         last_K = real_value;
         balance.SetPrelimHeatTransferCoefficient(real_value);
     }
+    UpdateResultValues();
 }
 
 

@@ -23,6 +23,13 @@ class HeatBalance
             return dT;
         }
 
+        double GetRequiredArea(void) const
+        {
+            return A;
+        }
+
+        double CalculateRequiredArea(void);
+
     protected:
 
     private:
@@ -34,6 +41,7 @@ class HeatBalance
         double heat_flow;
         double K;   // Preliminary heat transfer coefficient
         double dT;  // Mean logarithmic temperature difference
+        double A;   // Preliminary value for required area
 };
 
 #endif // HEAT_BALANCE_H_INCLUDED

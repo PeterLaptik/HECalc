@@ -11,9 +11,9 @@ enum FluidType
 {
     F_GAS = 0,
     F_LIQUID = 1,
-    F_VAPOUR = 2,   // condensing vapour
+    F_CONDENSING_VAPOUR = 2,   // condensing vapour
     F_WATER = 3,
-    F_VAPOUR_WATER = 4, // condensing water vapour
+    F_CONDENSING_VAPOUR_WATER = 4, // condensing water vapour
     F_BOILING_LIQUID = 5
 };
 
@@ -65,11 +65,11 @@ struct Substance
                 return _("liquid");
             case (F_BOILING_LIQUID):
                 return _("boiling liquid");
-            case (F_VAPOUR):
+            case (F_CONDENSING_VAPOUR):
                 return _("condensing vapour");
             case (F_WATER):
                 return _("water");
-            case (F_VAPOUR_WATER):
+            case (F_CONDENSING_VAPOUR_WATER):
                 return _("condensing water vapour");
             }
 

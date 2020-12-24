@@ -28,8 +28,8 @@ double Flow::CalculateHeatFlow()
         case F_BOILING_LIQUID:
             heat_flow = substance.heat_vaporization*flow_rate;
             break;
-        case F_VAPOUR:
-        case F_VAPOUR_WATER:
+        case F_CONDENSING_VAPOUR:
+        case F_CONDENSING_VAPOUR_WATER:
             heat_flow = substance.heat_condensation*flow_rate;
             break;
     }
@@ -79,7 +79,7 @@ void Flow::CalculateUnknown()
         }
     }
 
-    if((substance.type==F_VAPOUR)||(substance.type==F_VAPOUR_WATER))
+    if((substance.type==F_CONDENSING_VAPOUR)||(substance.type==F_CONDENSING_VAPOUR_WATER))
     {
         // G = Q/r
         if(unknown_value==UNKN_RATE)

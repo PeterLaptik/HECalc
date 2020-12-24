@@ -84,3 +84,9 @@ void HeatBalance::SetPrelimHeatTransferCoefficient(double coeff)
 {
     K = coeff;
 }
+
+double HeatBalance::CalculateRequiredArea()
+{
+    // Q = K*A*dT => A = Q/(K*dT)
+    return A = round(heat_flow/(K*dT)*10)/10;
+}
