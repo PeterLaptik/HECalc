@@ -2,7 +2,6 @@
 #include "../controls/drafter.h"
 #include "../../calc/heat_balance.h"
 #include "../../calc/input_data.h"
-#include <wx/msgdlg.h>
 
 static const int CHOICE_FLOW_ID = wxNewId();
 static const int CHOICE_K_ID = wxNewId();
@@ -97,9 +96,10 @@ BalancePanel::BalancePanel(wxWindow* parent,
 	m_panel4 = new DrafterPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE|wxTAB_TRAVERSAL);
 	bSizer8->Add(m_panel4, 1, wxEXPAND | wxALL, 5);
 
-	bSizer7->Add(bSizer8, 0, wxEXPAND, 5);
-	m_panel6 = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE|wxTAB_TRAVERSAL);
-	bSizer7->Add(m_panel6, 1, wxEXPAND | wxALL, 5);
+	bSizer7->Add(bSizer8, 3, wxEXPAND, 5);
+
+	text_message = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE | wxTE_READONLY);
+    bSizer7->Add(text_message, 1, wxEXPAND | wxALL, 5);
 
 	last_K = -1;
 	this->SetSizer(bSizer7);
@@ -235,5 +235,9 @@ void BalancePanel::OnCoeffSelectionChanged(wxCommandEvent &event)
     UpdateResultValues();
 }
 
+void BalancePanel::CheckBalance(void)
+{
+
+}
 
 

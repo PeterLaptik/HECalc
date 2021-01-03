@@ -14,6 +14,7 @@
 #include <wx/sizer.h>
 #include <wx/panel.h>
 #include <wx/choice.h>
+#include <wx/richtext/richtextctrl.h>
 
 
 class BalancePanel : public wxPanel
@@ -29,6 +30,7 @@ class BalancePanel : public wxPanel
 		~BalancePanel();
 
 		void UpdateResultValues(void);
+		void CheckBalance(void);
 
 
 	protected:
@@ -52,7 +54,7 @@ class BalancePanel : public wxPanel
 		wxStaticText* m_static_text_area;
 		wxTextCtrl* m_text_area;
 		wxPanel* m_panel4;
-		wxPanel* m_panel6;
+		wxTextCtrl *text_message;
 
 		wxArrayString m_flow_type;
 		wxArrayString m_choice_coefficients;  // Mutable values. Depend on fluid types
