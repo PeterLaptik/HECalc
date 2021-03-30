@@ -1,10 +1,10 @@
 #include "dlgsubstance.h"
 #include "dlg_create_substance.h"
-#include <wx/intl.h>
-#include <wx/string.h>
-#include <wx/file.h>
-#include <wx/dir.h>
+#include "../controls/substance_list.h"
+#include <wx/sizer.h>
+#include <wx/button.h>
 #include <wx/filename.h>
+#include <wx/file.h>
 
 // Path to base file
 static const wxString PATH_FOLDER = "base";

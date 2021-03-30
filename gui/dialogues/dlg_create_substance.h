@@ -3,11 +3,10 @@
 
 #include "../../calc/substance.h"
 #include <wx/dialog.h>
-#include <wx/grid.h>
-#include <wx/choice.h>
-#include <wx/sizer.h>
-#include <wx/button.h>
 
+class wxGrid;
+class wxChoice;
+class wxButton;
 
 // Dialogue for new substance creating
 class DlgCreateSubstance : public wxDialog

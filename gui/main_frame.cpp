@@ -75,6 +75,7 @@ void MainFrame::OnInputDataChanged(wxCommandEvent &event)
     drafter_panel->Refresh();
     balance_panel->Refresh();
     balance_panel->UpdateResultValues();
+    drafter_panel->UpdateResults();
 }
 
 void MainFrame::OnResizeFrame(wxSizeEvent &event)
@@ -94,7 +95,9 @@ void MainFrame::InitTestData(wxCommandEvent &event)
 {
     int id = event.GetId();
     if(id==ID_TEST_CASE_1)
+    {
         input_panel->SetTestData(1);
-
+        drafter_panel->SetTestData(1);
+    }
 }
 #endif // TEST

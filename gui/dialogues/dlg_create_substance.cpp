@@ -1,6 +1,10 @@
 #include "dlg_create_substance.h"
 #include "../../calc/substance.h"
 #include <wx/msgdlg.h>
+#include <wx/grid.h>
+#include <wx/choice.h>
+#include <wx/sizer.h>
+#include <wx/button.h>
 
 static const int ROW_NAME = 0;
 static const int ROW_DENSITY = 1;

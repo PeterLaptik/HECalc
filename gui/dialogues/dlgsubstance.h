@@ -1,11 +1,13 @@
 #ifndef DLGSUBSTANCE_H
 #define DLGSUBSTANCE_H
 
-#include <wx/dialog.h>
-#include <wx/sizer.h>
-#include <wx/button.h>
 #include "../../calc/substance.h"
-#include "../controls/substance_list.h"
+#include <wx/dialog.h>
+
+class SubstanceList;
+class wxButton;
+class wxBoxSizer;
+class wxDialog;
 
 // Dialogue for substance selecting from substance-list
 class DlgSubstance: public wxDialog

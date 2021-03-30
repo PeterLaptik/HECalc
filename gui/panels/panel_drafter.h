@@ -1,9 +1,14 @@
 #ifndef PANEL_DRAFTER_H_INCLUDED
 #define PANEL_DRAFTER_H_INCLUDED
 
-#include "../controls/drafter.h"
 #include <wx/panel.h>
 #include <wx/sizer.h>
+
+#define TEST
+
+class DrafterPanel;
+class EquipmentGrid;
+class wxRichTextCtrl;
 
 // Notebook panel for keeping drafter
 class NotePanelDrafter : public wxPanel
@@ -18,8 +23,15 @@ class NotePanelDrafter : public wxPanel
 
 		virtual ~NotePanelDrafter();
 
+		void UpdateResults(void);
+
+		#ifdef TEST
+            void SetTestData(int test_num);
+		#endif // TEST
+
     protected:
-        DrafterPanel *drafter;
+        wxRichTextCtrl *output;
+        EquipmentGrid *equipment_grid;
 
 	private:
 
