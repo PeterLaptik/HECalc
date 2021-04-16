@@ -26,6 +26,7 @@ class Flow
         void SetIsHotFlow(bool is_hot_flow);
 
         Substance& GetSubstance(void);
+        const Substance& GetSubstance(void) const;
         double GetFlowRate(void) const;
         double GetInletTemperature(void) const;
         double GetOutletTemperature(void) const;

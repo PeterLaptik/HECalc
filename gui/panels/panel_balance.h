@@ -32,6 +32,7 @@ class BalancePanel : public wxPanel
 		void UpdateResultValues(void);
 		void CheckBalance(void);
 
+		wxTextCtrl *text_message;
 
 	protected:
 	    void OnFLowTypeCHanged(wxCommandEvent &event);
@@ -54,7 +55,6 @@ class BalancePanel : public wxPanel
 		wxStaticText* m_static_text_area;
 		wxTextCtrl* m_text_area;
 		wxPanel* m_panel4;
-		wxTextCtrl *text_message;
 
 		wxArrayString m_flow_type;
 		wxArrayString m_choice_coefficients;  // Mutable values. Depend on fluid types

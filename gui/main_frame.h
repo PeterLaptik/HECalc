@@ -13,10 +13,12 @@
 #include <wx/menu.h>
 
 #include "panels/panel_input.h"
-#include "panels/panel_drafter.h"
+#include "panels/panel_results.h"
 #include "panels/panel_balance.h"
 #include "events/events.h"
 
+// Main frame
+// Contains input panel and notebook with result panels
 class MainFrame : public wxFrame
 {
     public:
@@ -39,10 +41,14 @@ class MainFrame : public wxFrame
 	    void ShowAllNotebookPanels(wxCommandEvent &event);
 	    void InitTestData(wxCommandEvent &event);
 
+	    // Panel for input data
 	    InputPanel *input_panel;
-	    BalancePanel *balance_panel;
-	    NotePanelDrafter *drafter_panel;
+	    // Result notebook
 	    wxAuiNotebook *auinotebook;
+	    // Notebook panel for balance results
+	    BalancePanel *balance_panel;
+	    // Notebook panel to output results
+	    ResultPanel *results_panel;
 
 	    // Menu
 	    wxMenuBar *menu;

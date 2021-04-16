@@ -129,6 +129,11 @@ Substance& Flow::GetSubstance()
     return substance;
 }
 
+const Substance& Flow::GetSubstance() const
+{
+    return substance;
+}
+
 double Flow::GetFlowRate() const
 {
     return flow_rate;

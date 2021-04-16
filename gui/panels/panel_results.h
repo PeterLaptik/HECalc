@@ -11,17 +11,17 @@ class EquipmentGrid;
 class wxRichTextCtrl;
 
 // Notebook panel for keeping drafter
-class NotePanelDrafter : public wxPanel
+class ResultPanel : public wxPanel
 {
     public:
-		NotePanelDrafter(wxWindow* parent,
+		ResultPanel(wxWindow* parent,
                 wxWindowID id = wxID_ANY,
                 const wxPoint& pos = wxDefaultPosition,
                 const wxSize& size = wxSize(500,300),
                 long style = wxTAB_TRAVERSAL,
                 const wxString& name = wxEmptyString);
 
-		virtual ~NotePanelDrafter();
+		virtual ~ResultPanel();
 
 		void UpdateResults(void);
 

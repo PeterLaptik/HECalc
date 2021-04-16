@@ -22,11 +22,25 @@ class InputData
         Flow flow_2;
         FlowDirection direction;
 
+        bool CheckData(void) const;
+
+        std::string& GetMessage(void)
+        {
+            return msg;
+        }
+
     private:
         InputData()
         { };
         InputData(const InputData&);
         InputData& operator=(InputData&);
+
+        inline bool SetMessage(const std::string &message) const;
+        inline bool IsCondensingOrBoiling(const Flow &flow) const;
+        inline bool IsFlowUnknown(void) const;
+        inline bool IsFlowHeating(const Flow &flow) const;
+
+        mutable std::string msg;
 };
 
 #endif // INPUT_DATA_H_INCLUDED

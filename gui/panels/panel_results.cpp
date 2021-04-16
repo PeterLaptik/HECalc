@@ -1,10 +1,10 @@
-#include "panel_drafter.h"
+#include "panel_results.h"
 #include "../controls/equipment_grid.h"
 #include "wx/richtext/richtextctrl.h"
 #include "../../calc/output_data.h"
 #include "../../calc/heatexchanger.h"
 
-NotePanelDrafter::NotePanelDrafter(wxWindow* parent, wxWindowID id,
+ResultPanel::ResultPanel(wxWindow* parent, wxWindowID id,
                        const wxPoint& pos,
                        const wxSize& size,
                        long style,
@@ -21,10 +21,10 @@ NotePanelDrafter::NotePanelDrafter(wxWindow* parent, wxWindowID id,
 	this->Layout();
 }
 
-NotePanelDrafter::~NotePanelDrafter()
+ResultPanel::~ResultPanel()
 { }
 
-void NotePanelDrafter::UpdateResults()
+void ResultPanel::UpdateResults()
 {
     wxString line;
     OutputData& results = OutputData::GetInstance();
@@ -41,7 +41,7 @@ void NotePanelDrafter::UpdateResults()
 }
 
 #ifdef TEST
-    void NotePanelDrafter::SetTestData(int test_num)
+    void ResultPanel::SetTestData(int test_num)
     {
         switch(test_num)
         {

@@ -1,4 +1,5 @@
 #include "main_frame.h"
+#include "../calc/input_data.h"
 
 #define TEST
 
@@ -43,8 +44,8 @@ MainFrame::MainFrame(wxWindow* parent,
 	balance_panel = new BalancePanel(this);
 	auinotebook->AddPage(balance_panel, wxT("Balance"), false, wxNullBitmap);
 
-	drafter_panel = new NotePanelDrafter(this);
-	auinotebook->AddPage(drafter_panel, wxT("View"), false, wxNullBitmap);
+	results_panel = new ResultPanel(this);
+	auinotebook->AddPage(results_panel, wxT("Equipment"), false, wxNullBitmap);
 
     // Create menus
     menu = new wxMenuBar();
@@ -72,21 +73,35 @@ MainFrame::~MainFrame()
 
 void MainFrame::OnInputDataChanged(wxCommandEvent &event)
 {
-    drafter_panel->Refresh();
+    results_panel->Refresh();
     balance_panel->Refresh();
     balance_panel->UpdateResultValues();
-    drafter_panel->UpdateResults();
+    results_panel->UpdateResults();
+    // Check heat balance input
+    balance_panel->text_message->Clear();
+    InputData& input = InputData::GetInstance();
+    bool input_result = input.CheckData();
+    if(!input_result)
+    {
+        balance_panel->text_message->SetForegroundColour(*wxRED);
+        balance_panel->text_message->SetValue(wxString(input.GetMessage().c_str(), wxConvUTF8));
+    }
+    else
+    {
+        balance_panel->text_message->SetForegroundColour(*wxBLACK);
+        balance_panel->text_message->SetValue("OK");
+    }
 }
 
 void MainFrame::OnResizeFrame(wxSizeEvent &event)
 {
-    drafter_panel->Refresh();
+    results_panel->Refresh();
     balance_panel->Refresh();
 }
 
 void MainFrame::ShowAllNotebookPanels(wxCommandEvent &event)
 {
-    drafter_panel->Show();
+    results_panel->Show();
 }
 
 // Assign test data for input panel
@@ -97,7 +112,7 @@ void MainFrame::InitTestData(wxCommandEvent &event)
     if(id==ID_TEST_CASE_1)
     {
         input_panel->SetTestData(1);
-        drafter_panel->SetTestData(1);
+        results_panel->SetTestData(1);
     }
 }
 #endif // TEST

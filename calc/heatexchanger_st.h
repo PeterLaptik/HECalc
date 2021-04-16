@@ -11,12 +11,12 @@ class HeatExchangerShellTube: public HeatExchanger
         HeatExchangerShellTube();
         ~HeatExchangerShellTube();
         // Pipes
-        double pipe_outer_diameter;   // m
-        double pipe_thickness;  // m
+        double pipe_outer_diameter; // m
+        double pipe_thickness;      // m
         int pipe_number;
         int passes_number;
         // Shell
-        double shell_inner_diameter;
+        double shell_inner_diameter;// m
 
         double GetReInner(void);
         double GetPrInner(void);
