@@ -19,9 +19,11 @@ class EquipmentGrid: public wxPropertyGrid
         EquipmentGrid(wxWindow *parent, wxWindowID id);
         virtual ~EquipmentGrid();
         wxEnumProperty *he_type;
+        wxEnumProperty *calc_strategy;
         // Heat exchanger geometry
         wxPGProperty *prop_pipe_diameter;
         wxPGProperty *prop_pipe_number;
+        wxPGProperty *prop_pipe_length;
         wxPGProperty *prop_shell_diameter;
         /*****/
         wxPGProperty *prop_pipe_thickness;
@@ -37,12 +39,16 @@ class EquipmentGrid: public wxPropertyGrid
         #endif // TEST
 
     protected:
+        long strategy_id, type_id;
         void OnPropertyChanged(wxCommandEvent &event);
         void UpdateShellTubeHe(HeatExchangerShellTube *he);
+        void RefreshStrategyList(void);
 
     private:
         // List of heat-exchangers types possible to be computed
         wxArrayString m_types;
+        // Calculation strategies
+        wxArrayString m_strategies;
 };
 
 #endif // EQUIPMENT_GRID_H_INCLUDED

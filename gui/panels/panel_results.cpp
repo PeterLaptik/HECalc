@@ -38,6 +38,12 @@ void ResultPanel::UpdateResults()
     line.Clear();
     line<<"Pr(innner) = "<<he->GetPrInner();
     output->AddParagraph(line);
+    line.Clear();
+    line<<"Nu(inner) = "<<he->GetNuInner();
+    output->AddParagraph(line);
+    line.Clear();
+    line<<"alpha(inner) = "<<he->GetAlphaInner()<<" W/(sq.m*K)";
+    output->AddParagraph(line);
 }
 
 #ifdef TEST
