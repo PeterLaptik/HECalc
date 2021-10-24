@@ -37,6 +37,7 @@ void HeatExchangerShellTube::Calculate()
     double mu = data.flow_1.GetSubstance().viscosity;
     double rho = data.flow_1.GetSubstance().density;
 
+    // In pipe flow
     // Pipe area
     double d = pipe_outer_diameter - 2*pipe_thickness;
     double S = PI*(d*d)/4/passes_number;
@@ -53,6 +54,10 @@ void HeatExchangerShellTube::Calculate()
     double c = data.flow_1.GetSubstance().heat_capacity;
     double lambda = data.flow_1.GetSubstance().thermal_conductivity;
     Pr_in = round(c*mu/lambda*100)/100;
+
+    // Out pipe flow
+    // Free area
+
 
     if(!calc_strategy)
         return;
